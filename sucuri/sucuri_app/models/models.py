@@ -13,7 +13,7 @@ from sqlalchemy_utils import (
     URLType
 )
 
-from sql_sucuri.database import Base
+from sucuri.sql_sucuri.database import Base
 from .enums import MediaType, CourseType
 
 

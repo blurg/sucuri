@@ -1,0 +1,62 @@
+[tool.poetry]
+name = "sucuri"
+version = "0.1.0"
+description = ""
+authors = ["jfunez <juan.funez@gmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+fastapi = "^0.58.0"
+SQLAlchemy = "^1.3.18"
+SQLAlchemy-Utils = "^0.36.6"
+uvicorn = "^0.11.5"
+alembic = "^1.4.2"
+
+[tool.poetry.dev-dependencies]
+flake8 = "^3.8.3"
+black = "^19.10b0"
+isort = {extras = ["pyproject"], version = "^4.3.21"}
+pre-commit = "^2.5.1"
+mypy = "^0.782"
+pytest = "^5.4.3"
+codecov = "^2.1.7"
+pytest-cov = "^2.10.0"
+flake8-bugbear = "^20.1.4"
+flake8-builtins = "^1.5.3"
+flake8_docstrings = "^1.5.0"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
+
+[tool.black]
+line-length = 88
+target-version = ['py37', 'py38']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.pytest_cache
+  | configs
+  | dockerfiles
+  | docs
+  | requirements
+)/
+'''
+
+[tool.isort]
+sections = 'FUTURE,STDLIB,PYTEST,THIRDPARTY,FIRSTPARTY,LOCALFOLDER'
+force_single_line = true
+known_future_library = 'future,pies'
+known_pytest = 'pytest,py.test'
+known_first_party = 'iib,iib_data'
+import_heading_stdlib = 'Standard Library'
+import_heading_pytest = 'pytest'
+import_heading_firstparty = 'IIB'
+lines_after_imports = 2
+not_skip = '__init__.py'
+include_trailing_comma = true
+force_grid_wrap = false
+combine_as_imports = true
+line_length = 88

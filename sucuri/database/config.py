@@ -3,6 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from starlette.config import Config
 
+
 config = Config(".env")
 
 SQLALCHEMY_DATABASE_URL = config("DATABASE_URL", default="sqlite:///./sql_sucuri.db")

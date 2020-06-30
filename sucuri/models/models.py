@@ -19,22 +19,22 @@ from .enums import MediaType
 association_table = Table(
     "association_table",
     Base.metadata,
-    Column("profile_id", String, ForeignKey("profile.id")),
-    Column("project_id", String, ForeignKey("project.id")),
+    Column("profile_id", Integer, ForeignKey("profile.id")),
+    Column("project_id", Integer, ForeignKey("project.id")),
 )
 
 association_label = Table(
     "association_label",
     Base.metadata,
-    Column("label_id", String, ForeignKey("label.id")),
-    Column("project_id", String, ForeignKey("project.id")),
+    Column("label_id", Integer, ForeignKey("label.id")),
+    Column("project_id", Integer, ForeignKey("project.id")),
 )
 
 association_org = Table(
     "association_org",
     Base.metadata,
-    Column("org_id", String, ForeignKey("organization.id")),
-    Column("profile_id", String, ForeignKey("profile.id")),
+    Column("org_id", Integer, ForeignKey("organization.id")),
+    Column("profile_id", Integer, ForeignKey("profile.id")),
 )
 
 
@@ -46,9 +46,9 @@ class Organization(Base):
     about = Column(String)
     url = Column(URLType)
     social_media = Column(JSONType)
-    owner = Column(String, ForeignKey("profile.id"))
-    projects = relationship("project", back_populates="org")
-    members = relationship("profile", secondary=association_org, back_populates="orgs")
+    owner = Column(Integer, ForeignKey("profile.id"))
+    projects = relationship("Project", back_populates="org")
+    members = relationship("Profile", secondary=association_org, back_populates="orgs")
 
 
 class Profile(Base):
@@ -58,12 +58,8 @@ class Profile(Base):
     name = Column(String, index=True)
     social_media = Column(JSONType)
 
-    orgs_owned = relationship("organization", back_populates="owner")
-    orgs = relationship(
-        "organization", secondary=association_org, back_populates="members"
-    )
     projects = relationship(
-        "project", secondary=association_table, back_populates="team"
+        "Project", secondary=association_table, back_populates="team"
     )
 
 
@@ -74,14 +70,14 @@ class Project(Base):
     about = Column(String)
     name = Column(String, index=True)
     url = Column(URLType)
-    org = Column(String, ForeignKey("organization.id"))
+    org = Column(Integer, ForeignKey("organization.id"))
     social_media = Column(JSONType)
-    thumbnail = Column(LargeBinary)
+    thumbnail = Column(URLType, nullable=True)
     team = relationship(
-        "profile", secondary=association_table, back_populates="projects"
+        "Profile", secondary=association_table, back_populates="projects"
     )
     labels = relationship(
-        "label", secondary=association_label, back_populates="projects"
+        "Label", secondary=association_label, back_populates="projects"
     )
     media_type = Column(
         Enum(MediaType, values_callable=lambda obj: [e.value for e in obj]),
@@ -103,5 +99,5 @@ class Label(Base):
     label = Column(String)
     description = Column(String)
     projects = relationship(
-        "project", secondary=association_label, back_populates="labels"
+        "Project", secondary=association_label, back_populates="labels"
     )

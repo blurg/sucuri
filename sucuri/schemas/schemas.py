@@ -5,14 +5,18 @@ from typing import Optional
 
 from pydantic import BaseModel
 
-from sucuri.models.enums import MediaType
+# IIB
 from sucuri.models.enums import CourseType
+from sucuri.models.enums import MediaType
 from sucuri.models.enums import SocialMedia
 
 
 class SocialMediaSchema(BaseModel):
     type: SocialMedia
     value: str
+
+    class Config:
+        orm_mode = True
 
 
 class OrganizationSchema(BaseModel):
@@ -31,8 +35,8 @@ class OrganizationSchema(BaseModel):
 
 class ProfileSchema(BaseModel):
     name: str
-    social_media: SocialMediaSchema
-    
+    social_media: Optional[SocialMediaSchema] = None
+
     class Config:
         orm_mode = True
 

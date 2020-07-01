@@ -2,19 +2,19 @@
 from enum import Enum
 
 
-class MediaType(Enum):
+class MediaType(str, Enum):
     AUDIOVISUAL = "audiovisual"
     BLOG = "blog"
     PODCAST = "podcast"
     REPOSITORIO = "repositório"
 
 
-class CourseType(Enum):
+class CourseType(str, Enum):
     ONLINE = "online"
     PRESENCIAL = "presencial"
 
 
-class SocialMedia(Enum):
+class SocialMedia(str, Enum):
     TWITTER = "twitter"
     FACEBOOK = "facebook"
     INSTAGRAM = "instagram"

@@ -47,8 +47,7 @@ class Organization(Base):
     url = Column(URLType)
     social_media = Column(JSONType)
     owner = Column(Integer, ForeignKey("profile.id"))
-    projects = relationship("Project", back_populates="org")
-    members = relationship("Profile", secondary=association_org, back_populates="orgs")
+    members = relationship("Profile", secondary=association_org, backref="orgs")
 
 
 class Profile(Base):
@@ -57,10 +56,6 @@ class Profile(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True)
     social_media = Column(JSONType)
-
-    projects = relationship(
-        "Project", secondary=association_table, back_populates="team"
-    )
 
 
 class Project(Base):
@@ -73,12 +68,8 @@ class Project(Base):
     org = Column(Integer, ForeignKey("organization.id"))
     social_media = Column(JSONType)
     thumbnail = Column(URLType, nullable=True)
-    team = relationship(
-        "Profile", secondary=association_table, back_populates="projects"
-    )
-    labels = relationship(
-        "Label", secondary=association_label, back_populates="projects"
-    )
+    team = relationship("Profile", secondary=association_table, backref="projects")
+
     media_type = Column(
         Enum(MediaType, values_callable=lambda obj: [e.value for e in obj]),
         nullable=False,
@@ -98,6 +89,4 @@ class Label(Base):
     id = Column(Integer, primary_key=True, index=True)
     label = Column(String)
     description = Column(String)
-    projects = relationship(
-        "Project", secondary=association_label, back_populates="labels"
-    )
+    projects = relationship("Project", secondary=association_label, backref="labels")

@@ -86,6 +86,7 @@ class Project(Base):
 
 class Label(Base):
     __tablename__ = "label"
+
     id = Column(Integer, primary_key=True, index=True)
     label = Column(String)
     description = Column(String)

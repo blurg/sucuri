@@ -1,9 +1,9 @@
 from fastapi import FastAPI
 
 
-app = FastAPI()
+def get_app():
+    from .views import profile_view
 
-
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+    app = FastAPI()
+    app.include_router(profile_view.router)
+    return app

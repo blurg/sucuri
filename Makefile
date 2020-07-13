@@ -1,7 +1,7 @@
 
 
 run:
-	poetry run uvicorn sucuri.main:app --reload
+	poetry run uvicorn sucuri.asgi:app --reload
 
 migrations:
 	poetry run alembic revision --autogenerate

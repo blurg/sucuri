@@ -1,8 +1,8 @@
 """initial migration
 
-Revision ID: 77f61fbfa071
-Revises:
-Create Date: 2020-06-28 20:52:16.069439
+Revision ID: f6598fcf89f5
+Revises: 
+Create Date: 2020-07-01 20:22:36.694226
 
 """
 import sqlalchemy as sa
@@ -11,7 +11,7 @@ from alembic import op
 
 
 # revision identifiers, used by Alembic.
-revision = "77f61fbfa071"
+revision = "f6598fcf89f5"
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -47,7 +47,7 @@ def upgrade():
         sa.Column(
             "social_media", sqlalchemy_utils.types.json.JSONType(), nullable=True
         ),
-        sa.Column("owner", sa.String(), nullable=True),
+        sa.Column("owner", sa.Integer(), nullable=True),
         sa.ForeignKeyConstraint(["owner"], ["profile.id"],),
         sa.PrimaryKeyConstraint("id"),
     )
@@ -57,8 +57,8 @@ def upgrade():
     )
     op.create_table(
         "association_org",
-        sa.Column("org_id", sa.String(), nullable=True),
-        sa.Column("profile_id", sa.String(), nullable=True),
+        sa.Column("org_id", sa.Integer(), nullable=True),
+        sa.Column("profile_id", sa.Integer(), nullable=True),
         sa.ForeignKeyConstraint(["org_id"], ["organization.id"],),
         sa.ForeignKeyConstraint(["profile_id"], ["profile.id"],),
     )
@@ -68,11 +68,11 @@ def upgrade():
         sa.Column("about", sa.String(), nullable=True),
         sa.Column("name", sa.String(), nullable=True),
         sa.Column("url", sqlalchemy_utils.types.url.URLType(), nullable=True),
-        sa.Column("org", sa.String(), nullable=True),
+        sa.Column("org", sa.Integer(), nullable=True),
         sa.Column(
             "social_media", sqlalchemy_utils.types.json.JSONType(), nullable=True
         ),
-        sa.Column("thumbnail", sa.LargeBinary(), nullable=True),
+        sa.Column("thumbnail", sqlalchemy_utils.types.url.URLType(), nullable=True),
         sa.Column(
             "media_type",
             sa.Enum("audiovisual", "blog", "podcast", "repositório", name="mediatype"),
@@ -92,15 +92,15 @@ def upgrade():
     op.create_index(op.f("ix_project_name"), "project", ["name"], unique=False)
     op.create_table(
         "association_label",
-        sa.Column("label_id", sa.String(), nullable=True),
-        sa.Column("project_id", sa.String(), nullable=True),
+        sa.Column("label_id", sa.Integer(), nullable=True),
+        sa.Column("project_id", sa.Integer(), nullable=True),
         sa.ForeignKeyConstraint(["label_id"], ["label.id"],),
         sa.ForeignKeyConstraint(["project_id"], ["project.id"],),
     )
     op.create_table(
         "association_table",
-        sa.Column("profile_id", sa.String(), nullable=True),
-        sa.Column("project_id", sa.String(), nullable=True),
+        sa.Column("profile_id", sa.Integer(), nullable=True),
+        sa.Column("project_id", sa.Integer(), nullable=True),
         sa.ForeignKeyConstraint(["profile_id"], ["profile.id"],),
         sa.ForeignKeyConstraint(["project_id"], ["project.id"],),
     )

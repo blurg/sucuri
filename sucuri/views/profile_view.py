@@ -11,6 +11,7 @@ from sucuri.crud.crud_profile import delete_profile
 from sucuri.crud.crud_profile import get_profile
 from sucuri.crud.crud_profile import get_profiles
 from sucuri.crud.crud_profile import post_profile
+from sucuri.crud.crud_profile import update_profile
 from sucuri.database.dependency import get_db
 from sucuri.models.models import Profile
 from sucuri.schemas.schemas import ProfileSchema
@@ -46,3 +47,14 @@ async def get_all_profiles(skip: int = 0, limit: int = 100, db: Session = Depend
 @router.delete("/profiles/{profile_id}", response_model=ProfileSchema)
 async def delete_profile_by_id(profile_id: int, db: Session = Depends(get_db)):
     return delete_profile(profile_id, db)
+
+@router.put("/profiles/{profile_id}", response_model=ProfileSchema)
+async def update_profile_by_id(
+    profile_id: int,
+    profile: ProfileSchema,
+    db: Session = Depends(get_db)
+):
+    old_profile = get_profile(profile_id, db)
+    if old_profile is None:
+        raise HTTPException(status_code=404, detail="Profile not found")
+    return update_profile(old_profile, profile, db)

@@ -26,3 +26,10 @@ def delete_profile(profile_id: int, db: Session):
     db.query(Profile).filter(Profile.id == profile_id).delete()
     db.commit()
     return
+
+def update_profile(old_profile: Profile, profile: ProfileSchema, db: Session):
+    db_profile = Profile(**profile.dict())
+    old_profile.name = db_profile.name
+    old_profile.social_media = db_profile.social_media
+    db.commit()
+    return

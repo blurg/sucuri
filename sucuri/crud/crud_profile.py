@@ -27,6 +27,7 @@ def delete_profile(profile_id: int, db: Session):
     db.commit()
     return
 
+
 def update_profile(old_profile: Profile, profile: ProfileSchema, db: Session):
     db_profile = Profile(**profile.dict())
     old_profile.name = db_profile.name

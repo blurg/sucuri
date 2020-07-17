@@ -35,7 +35,7 @@ class OrganizationSchema(BaseModel):
 
 class ProfileSchema(BaseModel):
     name: str
-    social_media: Optional[SocialMediaSchema] = None
+    social_media: List[Optional[SocialMediaSchema]] = []
 
     class Config:
         orm_mode = True

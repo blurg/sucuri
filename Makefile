@@ -25,4 +25,7 @@ lint: flake8 mypy
 
 format: isort black
 
+test:
+	pytest -v
+
 .PHONY: run migrations migrate isort black flake8 mypy

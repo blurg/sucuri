@@ -39,7 +39,9 @@ async def get_profile_by_id(profile_id: int, db: Session = Depends(get_db)):
 
 
 @router.get("/profiles/", response_model=List[ProfileSchema])
-async def get_all_profiles(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+async def get_all_profiles(
+    skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
+):
     profiles = get_profiles(db=db, skip=skip, limit=limit)
     return profiles
 
@@ -48,11 +50,10 @@ async def get_all_profiles(skip: int = 0, limit: int = 100, db: Session = Depend
 async def delete_profile_by_id(profile_id: int, db: Session = Depends(get_db)):
     return delete_profile(profile_id, db)
 
+
 @router.put("/profiles/{profile_id}", response_model=ProfileSchema)
 async def update_profile_by_id(
-    profile_id: int,
-    profile: ProfileSchema,
-    db: Session = Depends(get_db)
+    profile_id: int, profile: ProfileSchema, db: Session = Depends(get_db)
 ):
     old_profile = get_profile(profile_id, db)
     if old_profile is None:

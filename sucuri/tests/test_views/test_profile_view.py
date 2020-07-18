@@ -99,3 +99,14 @@ class TestProfileView:
             mock_delete_profile.return_value = None
             response = client.delete("/profiles/1")
             assert response.status_code == 200
+
+    def test_update_profile_should_return_200(self, profile):
+        response = client.put("/profiles/1", json=profile)
+        assert response.status_code == 200
+
+    def test_update_profile_should_return_profile_not_found(self, profile):
+        with mock.patch("sucuri.views.profile_view.get_profile") as mock_get_profile:
+            mock_get_profile.return_value = None
+            response = client.put("/profiles/1", json=profile)
+            assert response.status_code == 404
+            assert response.json() == {"detail": "Profile not found"}

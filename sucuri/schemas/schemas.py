@@ -20,14 +20,12 @@ class SocialMediaSchema(BaseModel):
 
 
 class OrganizationSchema(BaseModel):
-    id: int
     name: str
     about: str
     url: str
-    social_media: str
-    owner: Optional[int] = None
-    projects: Optional[List[int]] = None
-    members: Optional[List[int]] = None
+    social_media: List[Optional[SocialMediaSchema]] = []
+    owner: int
+    members: List[Optional[int]] = []
 
     class Config:
         orm_mode = True

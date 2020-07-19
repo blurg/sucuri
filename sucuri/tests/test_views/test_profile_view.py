@@ -29,13 +29,10 @@ class TestProfileView:
             "name": "Zoey",
             "social_media": [{"type": "instagram", "value": "@zoey"}],
         }
-    
+
     @pytest.fixture
     def profile_only_name(self):
-        return {
-            "name": "Zoey",
-            "social_media": []
-        }
+        return {"name": "Zoey", "social_media": []}
 
     @pytest.fixture
     def broken_profile(self):
@@ -47,15 +44,17 @@ class TestProfileView:
             {"name": "John", "social_media": [{"type": "twitter", "value": "@john"}]},
             {"name": "Paul", "social_media": [{"type": "instagram", "value": "@paul"}]},
             {"name": "Zoey", "social_media": [{"type": "instagram", "value": "@zoey"}]},
-            {"name": "Anthony", "social_media": []}
+            {"name": "Anthony", "social_media": []},
         ]
 
     def test_create_profile_should_return_200(self, profile):
         response = client.post("/profiles/", json=profile,)
         assert response.status_code == 200
         assert response.json() == profile
-    
-    def test_create_profile_should_return_200_without_social_media(self, profile_only_name):
+
+    def test_create_profile_should_return_200_without_social_media(
+        self, profile_only_name
+    ):
         response = client.post("/profiles/", json=profile_only_name)
         assert response.status_code == 200
         assert response.json() == profile_only_name
